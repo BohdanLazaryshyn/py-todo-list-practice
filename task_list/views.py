@@ -10,7 +10,6 @@ from task_list.models import Task, Tag
 
 class TaskListView(generic.ListView):
     model = Task
-    context_object_name = "tasks"
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(TaskListView, self).get_context_data(**kwargs)
@@ -23,7 +22,7 @@ class TaskListView(generic.ListView):
 
     def get_queryset(self):
         queryset = Task.objects.all()
-        queryset = queryset.order_by("-done", "-datetime")
+        queryset = queryset.order_by("-done", "-created_datetime")
         form = TaskSearchForm(self.request.GET)
 
         if form.is_valid():
@@ -34,21 +33,21 @@ class TaskListView(generic.ListView):
         return queryset
 
 
-class TaskCreateView(generic.CreateView):
+class TaskCreateView(LoginRequiredMixin, generic.CreateView):
     model = Task
     form_class = TaskForm
-    success_url = reverse_lazy("task-list")
+    success_url = reverse_lazy("task-list:home")
 
 
-class TaskUpdateView(generic.UpdateView):
+class TaskUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Task
     form_class = TaskForm
-    success_url = reverse_lazy("task-list")
+    success_url = reverse_lazy("task-list:home")
 
 
-class TaskDeleteView(generic.DeleteView):
+class TaskDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Task
-    success_url = reverse_lazy("task-list")
+    success_url = reverse_lazy("task-list:home")
 
 
 def task_toggle_done(request, pk):

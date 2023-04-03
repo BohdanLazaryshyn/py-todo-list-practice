@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
@@ -34,19 +35,19 @@ class TaskListView(generic.ListView):
         return queryset
 
 
-class TaskCreateView(LoginRequiredMixin, generic.CreateView):
+class TaskCreateView(generic.CreateView):
     model = Task
     form_class = TaskForm
     success_url = reverse_lazy("task_list:home")
 
 
-class TaskUpdateView(LoginRequiredMixin, generic.UpdateView):
+class TaskUpdateView(generic.UpdateView):
     model = Task
     form_class = TaskForm
     success_url = reverse_lazy("task_list:home")
 
 
-class TaskDeleteView(LoginRequiredMixin, generic.DeleteView):
+class TaskDeleteView(generic.DeleteView):
     model = Task
     success_url = reverse_lazy("task_list:home")
 
@@ -58,7 +59,7 @@ def task_toggle_done(request, pk):
     return HttpResponseRedirect(reverse_lazy("task_list:home"))
 
 
-class TagListView(LoginRequiredMixin, generic.ListView):
+class TagListView(generic.ListView):
     model = Tag
     paginate_by = 7
 
@@ -83,18 +84,18 @@ class TagListView(LoginRequiredMixin, generic.ListView):
         return queryset
 
 
-class TagCreateView(LoginRequiredMixin, generic.CreateView):
+class TagCreateView(generic.CreateView):
     model = Tag
     form_class = TagForm
     success_url = reverse_lazy("task_list:tag-list")
 
 
-class TagUpdateView(LoginRequiredMixin, generic.UpdateView):
+class TagUpdateView(generic.UpdateView):
     model = Tag
     fields = "__all__"
     success_url = reverse_lazy("task_list:tag-list")
 
 
-class TagDeleteView(LoginRequiredMixin, generic.DeleteView):
+class TagDeleteView(generic.DeleteView):
     model = Tag
     success_url = reverse_lazy("task_list:tag-list")

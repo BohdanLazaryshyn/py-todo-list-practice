@@ -1,13 +1,24 @@
 from django.urls import path
 
-# urlpatterns = [
-#     path("", index, name="index"),
-#     path("register/", register, name='register'),
-#     path(
-#         "dishes/",
-#         DishListView.as_view(),
-#         name="dish-list",
-#     ),
-# ]
+from task_list.views import TagListView, TagCreateView, TagUpdateView, TagDeleteView
+
+urlpatterns = [path(
+        "tags",
+        TagListView.as_view(),
+        name="tag-list",
+    ), path(
+        "tagcreate/",
+        TagCreateView.as_view(),
+        name="tag-create"
+    ), path(
+        "tag/<int:pk>/update/",
+        TagUpdateView.as_view(),
+        name="tag-update"
+    ), path(
+        "tag/<int:pk>/delete/",
+        TagDeleteView.as_view(),
+        name="tag-delete"
+    )
+]
 
 app_name = "task_list"

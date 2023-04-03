@@ -7,9 +7,15 @@ from task_list.form import TagForm, TagSearchForm
 from task_list.models import Task, Tag
 
 
-class TaskManager(models.Manager):
+class TaskListView(generic.ListView):
+    model = Task
+    template_name = 'task_list.html'
+    context_object_name = 'tasks'
+
     def get_queryset(self):
-        return super().get_queryset().order_by('done', '-created_datetime')
+        queryset = super().get_queryset()
+        queryset = queryset.order_by('-done', '-datetime')
+        return queryset
 
 
 class TagListView(LoginRequiredMixin, generic.ListView):
@@ -42,12 +48,12 @@ class TagCreateView(LoginRequiredMixin, generic.CreateView):
     success_url = reverse_lazy("task_list:tag-list")
 
 
-class IngredientUpdateView(LoginRequiredMixin, generic.UpdateView):
+class TagUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Tag
     fields = "__all__"
     success_url = reverse_lazy("task_list:tag-list")
 
 
-class IngredientDeleteView(LoginRequiredMixin, generic.DeleteView):
+class TagDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Tag
     success_url = reverse_lazy("task_list:tag-list")

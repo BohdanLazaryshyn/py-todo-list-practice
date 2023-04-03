@@ -1,4 +1,6 @@
 from django import forms
+from django.forms import DateInput, TimeInput
+
 from .models import Tag, Task
 
 
@@ -32,9 +34,16 @@ class TagForm(forms.ModelForm):
 
 
 class TaskForm(forms.ModelForm):
-
     class Meta:
         model = Task
-        fields = ["name", "deadline_datetime", "tags"]
-        widgets = {"deadline_datetime": forms.widgets.SelectDateWidget(),
-                   "tags": forms.widgets.CheckboxSelectMultiple()}
+        fields = ["name", "deadline_date", "deadline_time", "tags"]
+        widgets = {
+            "deadline_date": DateInput(attrs={"type": "date"}),
+            "deadline_time": TimeInput(attrs={"type": "time"}),
+            "tags": forms.CheckboxSelectMultiple()
+        }
+
+    # class Meta:
+    #     model = Task
+        # fields = ["name", "deadline_datetime", "tags"]
+        # widgets = {"deadline_datetime": forms.widgets.SelectDateWidget(), "tags": forms.CheckboxSelectMultiple()}

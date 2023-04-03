@@ -21,7 +21,7 @@
             {% if task.done %}<span style="color: green">Done</span><a href="{% url 'task_list:toggle-task-done' pk=task.id%}" class="btn btn-success" style="float: right">Complete</a>{% else %}<span style="color: red">Not done</span><a href="{% url 'task_list:toggle-task-done' pk=task.id%}" class="btn btn-secondary" style="float: right">Undo</a>{% endif %}
           </strong></p>
           <p style="font-size: 14px">
-          Created: {{ task.created_datetime }} {% if task.deadline_datetime %}Deadline: {{ task.deadline_datetime }}{% else %} {% endif %}
+          Created: {{ task.created_datetime }} {% if task.deadline_date %}Deadline: {{ task.deadline_date }} {% if task.deadline_time %}{{ task.deadline_time }}{% else %}{% endif %}{% else %} {% endif %}
           </p>
           <p>
           Tags:

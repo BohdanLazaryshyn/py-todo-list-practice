@@ -35,4 +35,6 @@ class TaskForm(forms.ModelForm):
 
     class Meta:
         model = Task
-        fields = ["name", "content", "deadline_datetime", "tags"]
+        fields = ["name", "deadline_datetime", "tags"]
+        widgets = {"deadline_datetime": forms.widgets.SelectDateWidget(),
+                   "tags": forms.widgets.CheckboxSelectMultiple()}
